@@ -16,7 +16,7 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN pip install --no-cache-dir \
     cvxopt~=1.3.2 \
-    ipykernel~=6.29.0 \
+    ipykernel~=6.29.0
 
 ########################  NON‑ROOT USER  #####################
 RUN useradd -m vscode
