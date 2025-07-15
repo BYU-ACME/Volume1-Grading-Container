@@ -1,5 +1,5 @@
 ########################  BASE PYTHON  ########################
-FROM python:3.13-slim@sha256:6544e0e002b40ae0f59bc3618b07c1e48064c4faed3a15ae2fbd2e8f663e8283
+FROM python:3.13-slim
 
 ########################  SYSTEM PACKAGES  ###################
 RUN apt-get update && \
@@ -17,6 +17,8 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN pip install --no-cache-dir \
     cvxopt~=1.3.2 \
     ipykernel~=6.29.0
+RUN pip install --upgrade "jax[cpu]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
+
 
 ########################  NON‑ROOT USER  #####################
 RUN useradd -m vscode

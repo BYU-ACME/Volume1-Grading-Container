@@ -1,10 +1,8 @@
-imageio>=2.37.0,<3     # Latest stable with Python 3.13 support :contentReference[oaicite:1]{index=1}
-jax>=0.4.38,<0.5       # Python 3.13-compatible JAX versions
-matplotlib>=3.9.0,<4   # 3.9+ adds support for 3.13
-networkx>=3.2,<4       # Python 3.13 support in 3.2+
-numba>=0.61.2,<1       # Required for compatibility with 3.13
-numpy>=2.1.0,<3        # 2.1+ supports Python 3.13 :contentReference[oaicite:2]{index=2}
-pytest>=7.4.0,<8       # Already compatible
-scipy>=1.14.1,<2       # SciPy 1.14+ includes 3.13 wheels
-sympy>=1.12,<2         # Pure Python, fine for 3.13
-pandas>=2.0.3,<3       # Pandas 2.0+ supports Python 3.13 (per readiness data) 
+imageio ~= 2.31.1
+matplotlib ~= 3.6.3
+networkx ~= 3.1
+numba ~= 0.57.1
+numpy ~= 1.24.3
+pytest ~= 7.4.0
+scipy ~= 1.10.1
+sympy ~= 1.12
