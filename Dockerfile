@@ -1,5 +1,7 @@
 ########################  BASE PYTHON  ########################
+# Leave this unpinned for now, JAX will only work with the OS that pinned it
 FROM python:3.13-slim
+
 
 ########################  SYSTEM PACKAGES  ###################
 RUN apt-get update && \
@@ -12,15 +14,34 @@ RUN apt-get update && \
 
 
 ########################  PYTHON PACKAGES  ###################
+# Lab Dependencies
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Universal Dependencies
 RUN pip install --no-cache-dir \
     cvxopt~=1.3.2 \
-    ipykernel~=6.29.0
+    ipykernel~=6.29.0 \
+    flake8~=7.3.0
+
+# Uncomment this line if the container needs JAX - Remove it from the auto generated requirements.txt
 RUN pip install --upgrade "jax[cpu]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
+
+# Uncomment this line if the container needs Pandas - For grading repos only
+RUN pip install --no-cache-dir pandas>=2.0.3,<3
+
+
+########################  REMOVE VSCODE SIGNING TOOL SO IT DOESN'T MELT THE CONTAINER  #####################
+# Some installations activate signing tool that uses a massive portion of the cpu for no reason
+RUN rm -f /usr/bin/vsce-sign
+RUN printf '#!/bin/sh\n# Disable rogue CPU-hungry VSCE signing processes\nfind /vscode/vscode-server -name vsce-sign -exec chmod -x {} + || true\n' > /usr/local/bin/disable-vsce-sign \
+  && chmod +x /usr/local/bin/disable-vsce-sign
+
 
 
 ########################  NON‑ROOT USER  #####################
+# This is the user that will be used to run the container
+# Do not change this, vscode dev containers expects it and it's more secure
 RUN useradd -m vscode
 USER vscode
 WORKDIR /workspaces
