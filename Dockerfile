@@ -28,7 +28,7 @@ RUN pip install --no-cache-dir \
 RUN pip install --upgrade "jax[cpu]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
 
 # Uncomment this line if the container needs Pandas - For grading repos only
-RUN pip install --no-cache-dir pandas>=2.0.3,<3
+RUN pip install --no-cache-dir "pandas>=2.0.3,<3"
 
 
 ########################  REMOVE VSCODE SIGNING TOOL SO IT DOESN'T MELT THE CONTAINER  #####################
