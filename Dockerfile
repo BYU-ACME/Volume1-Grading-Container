@@ -27,8 +27,9 @@ RUN pip install --no-cache-dir \
 # Uncomment this line if the container needs JAX - Remove it from the auto generated requirements.txt
 RUN pip install --upgrade \
     jax==0.4.38 \
-    jaxlib==0.4.38+cpu \
+    "jaxlib==0.4.38+cpu" \
     --find-links https://storage.googleapis.com/jax-releases/jax_releases.html
+
 # Uncomment this line if the container needs Pandas - For grading repos only
 RUN pip install --no-cache-dir "pandas>=2.0.3,<3"
 
