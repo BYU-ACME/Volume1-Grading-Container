@@ -33,11 +33,10 @@ RUN pip install --no-cache-dir \
 
 ########################  REMOVE VSCODE SIGNING TOOL ########################
 # Some installations activate signing tool that uses a massive portion of the cpu for no reason
+# I have found that these commands seem to do the trick
 RUN rm -f /usr/bin/vsce-sign
 RUN printf '#!/bin/sh\n# Disable rogue CPU-hungry VSCE signing processes\nfind /vscode/vscode-server -name vsce-sign -exec chmod -x {} + || true\n' > /usr/local/bin/disable-vsce-sign \
   && chmod +x /usr/local/bin/disable-vsce-sign
-
-# Allow vscode user to run just this script with sudo
 RUN mkdir -p /etc/sudoers.d && \
     echo "vscode ALL=(ALL) NOPASSWD: /usr/local/bin/disable-vsce-sign" | tee /etc/sudoers.d/disable-vsce-sign > /dev/null && \
     chmod 0440 /etc/sudoers.d/disable-vsce-sign
