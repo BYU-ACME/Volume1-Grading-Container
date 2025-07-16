@@ -9,7 +9,7 @@ RUN apt-get update && \
         build-essential cmake \
         libblas-dev liblapack-dev \
         libgl1 libglib2.0-0 \
-        git unzip \
+        git unzip sudo \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -25,18 +25,20 @@ RUN pip install --no-cache-dir \
     flake8~=7.3.0
 
 # Uncomment this line if the container needs JAX - Remove it from the auto generated requirements.txt
-RUN pip install --upgrade "jax[cpu]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
+# RUN pip install --upgrade "jax[cpu]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
 
 # Uncomment this line if the container needs Pandas - For grading repos only
-RUN pip install --no-cache-dir "pandas>=2.0.3,<3"
+# RUN pip install --no-cache-dir "pandas>=2.0.3,<3"
 
 
-########################  REMOVE VSCODE SIGNING TOOL SO IT DOESN'T MELT THE CONTAINER  #####################
+########################  REMOVE VSCODE SIGNING TOOL ########################
 # Some installations activate signing tool that uses a massive portion of the cpu for no reason
 RUN rm -f /usr/bin/vsce-sign
 RUN printf '#!/bin/sh\n# Disable rogue CPU-hungry VSCE signing processes\nfind /vscode/vscode-server -name vsce-sign -exec chmod -x {} + || true\n' > /usr/local/bin/disable-vsce-sign \
   && chmod +x /usr/local/bin/disable-vsce-sign
 
+# Allow vscode user to run just this script with sudo
+RUN echo "vscode ALL=(ALL) NOPASSWD: /usr/local/bin/disable-vsce-sign" > /etc/sudoers.d/disable-vsce-sign=
 
 
 ########################  NON‑ROOT USER  #####################
@@ -45,3 +47,5 @@ RUN printf '#!/bin/sh\n# Disable rogue CPU-hungry VSCE signing processes\nfind /
 RUN useradd -m vscode
 USER vscode
 WORKDIR /workspaces
+
+RUN echo "vscode ALL=(ALL) NOPASSWD: /usr/local/bin/disable-vsce-sign" >> /etc/sudoers.d/disable-vsce-sign
