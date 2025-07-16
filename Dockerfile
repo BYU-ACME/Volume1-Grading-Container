@@ -25,10 +25,10 @@ RUN pip install --no-cache-dir \
     flake8~=7.3.0
 
 # Don't uncomment this line until the JAX CPU only wheel is built, this will make it work for Macs
-RUN pip install --upgrade \
-    jax==0.4.38 \
-    "jaxlib==0.4.38+cpu" \
-    --find-links https://storage.googleapis.com/jax-releases/jax_releases.html
+# RUN pip install --upgrade \
+#     jax==0.4.38 \
+#     "jaxlib==0.4.38+cpu" \
+#     --find-links https://storage.googleapis.com/jax-releases/jax_releases.html
 
 # Uncomment this line for Volume 1, 2, and 4 grading repos
 RUN pip install --no-cache-dir "pandas>=2.0.3,<3"
