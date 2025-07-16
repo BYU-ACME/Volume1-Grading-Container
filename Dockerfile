@@ -1,6 +1,6 @@
 ########################  BASE PYTHON  ########################
 # Leave this unpinned for now, JAX will only work with the OS that pinned it
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 
 ########################  SYSTEM PACKAGES  ###################
@@ -24,13 +24,13 @@ RUN pip install --no-cache-dir \
     ipykernel~=6.29.0 \
     flake8~=7.3.0
 
-# Uncomment this line if the container needs JAX - Remove it from the auto generated requirements.txt
+# Don't uncomment this line until the JAX CPU only wheel is built, this will make it work for Macs
 RUN pip install --upgrade \
     jax==0.4.38 \
     "jaxlib==0.4.38+cpu" \
     --find-links https://storage.googleapis.com/jax-releases/jax_releases.html
 
-# Uncomment this line if the container needs Pandas - For grading repos only
+# Uncomment this line for Volume 1, 2, and 4 grading repos
 RUN pip install --no-cache-dir "pandas>=2.0.3,<3"
 
 
