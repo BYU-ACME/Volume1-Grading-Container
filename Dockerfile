@@ -1,6 +1,6 @@
 ########################  BASE PYTHON  ########################
 # Leave this unpinned for now, JAX will only work with the OS that pinned it
-FROM python:3.12-slim
+FROM python:3.13-slim
 
 
 ########################  SYSTEM PACKAGES  ###################
@@ -24,6 +24,11 @@ RUN pip install --no-cache-dir \
     ipykernel~=6.29.0 \
     flake8~=7.3.0
 
+
+# For now use this line, Volume 1a, Volume 4b
+RUN pip install --no-cache-dir \
+    jax==0.6.2 \
+    jaxlib==0.6.2
 # Don't uncomment this line until the JAX CPU only wheel is built, this will make it work for Macs
 # RUN pip install --upgrade \
 #     jax==0.4.38 \
@@ -31,7 +36,15 @@ RUN pip install --no-cache-dir \
 #     --find-links https://storage.googleapis.com/jax-releases/jax_releases.html
 
 # Uncomment this line for Volume 1, 2, and 4 grading repos
-RUN pip install --no-cache-dir "pandas>=2.0.3,<3"
+RUN pip install --no-cache-dir "pandas>=2.3.1,<3"
+
+
+########################  CONFIGURE GIT ########################
+# Removes dubious ownership erro and terminal prompts not working warning
+RUN git config --system core.askPass true \
+ && git config --system credential.helper cache \
+ && git config --system --add safe.directory /workspaces
+
 
 
 ########################  REMOVE VSCODE SIGNING TOOL ########################
