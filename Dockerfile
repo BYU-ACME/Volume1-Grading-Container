@@ -38,7 +38,9 @@ RUN printf '#!/bin/sh\n# Disable rogue CPU-hungry VSCE signing processes\nfind /
   && chmod +x /usr/local/bin/disable-vsce-sign
 
 # Allow vscode user to run just this script with sudo
-RUN echo "vscode ALL=(ALL) NOPASSWD: /usr/local/bin/disable-vsce-sign" > /etc/sudoers.d/disable-vsce-sign=
+RUN mkdir -p /etc/sudoers.d && \
+    echo "vscode ALL=(ALL) NOPASSWD: /usr/local/bin/disable-vsce-sign" | tee /etc/sudoers.d/disable-vsce-sign > /dev/null && \
+    chmod 0440 /etc/sudoers.d/disable-vsce-sign
 
 
 ########################  NON‑ROOT USER  #####################
